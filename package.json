@@ -46,7 +46,7 @@
   },
   "devDependencies": {
     "@faker-js/faker": "^8.4.1",
-    "@semantic-release/github": "^10.0.7",
+    "@semantic-release/github": "^10.1.0",
     "@semantic-release/release-notes-generator": "^12.1.0",
     "@types/bcryptjs": "^2.4.6",
     "@types/glob": "^8.1.0",
