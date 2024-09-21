@@ -101,6 +101,8 @@ export default class Server {
     });
   }
 
+  // some changes
+
   async start() {
     const instance = this.fastifyInstance;
     try {
