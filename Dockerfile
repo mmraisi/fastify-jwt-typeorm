@@ -1,5 +1,5 @@
 # Stage 1: Build stage
-FROM node:20-slim AS build
+FROM node:23-slim AS build
 
 # Set the working directory inside the container
 WORKDIR /app
@@ -17,7 +17,7 @@ COPY --chown=node:node . .
 RUN npm run build
 
 # Stage 2: Final stage
-FROM node:20-slim
+FROM node:23-slim
 
 # Set the working directory inside the container
 WORKDIR /app
