@@ -36,7 +36,7 @@
     "@fastify/jwt": "^8.0.1",
     "api-problem": "^9.0.2",
     "bcryptjs": "^2.4.3",
-    "dotenv": "^16.4.5",
+    "dotenv": "^16.4.7",
     "fastify": "^4.28.1",
     "http-status-codes": "^2.3.0",
     "oas-fastify": "^3.1.0",
