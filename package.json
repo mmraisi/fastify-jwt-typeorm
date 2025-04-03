@@ -37,7 +37,7 @@
     "api-problem": "^9.0.2",
     "bcryptjs": "^2.4.3",
     "dotenv": "^16.4.7",
-    "fastify": "^4.28.1",
+    "fastify": "^5.2.2",
     "http-status-codes": "^2.3.0",
     "oas-fastify": "^3.1.0",
     "pg": "^8.12.0",
