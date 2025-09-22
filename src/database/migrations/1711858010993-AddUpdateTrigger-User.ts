@@ -1,8 +1,8 @@
-import { MigrationInterface, QueryRunner } from "typeorm";
+import { MigrationInterface, QueryRunner } from 'typeorm'
 
 export class AddUpdateTriggerUser1711858010993 implements MigrationInterface {
-	public async up(queryRunner: QueryRunner): Promise<void> {
-		await queryRunner.query(`
+  public async up (queryRunner: QueryRunner): Promise<void> {
+    await queryRunner.query(`
             DO $$
             BEGIN
                 IF NOT EXISTS (
@@ -12,10 +12,10 @@ export class AddUpdateTriggerUser1711858010993 implements MigrationInterface {
                     UPDATE ON users FOR EACH ROW EXECUTE FUNCTION update_date_updated ();
                 END IF;
             END$$;
-        `);
-	}
+        `)
+  }
 
-	public async down(queryRunner: QueryRunner): Promise<void> {
-		await queryRunner.query(`DROP TRIGGER IF EXISTS users_update_date_updated ON users`);
-	}
+  public async down (queryRunner: QueryRunner): Promise<void> {
+    await queryRunner.query('DROP TRIGGER IF EXISTS users_update_date_updated ON users')
+  }
 }

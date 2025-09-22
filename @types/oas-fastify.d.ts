@@ -1,1 +1,1 @@
-declare module "oas-fastify";
+declare module 'oas-fastify';

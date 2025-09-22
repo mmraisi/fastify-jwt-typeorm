@@ -1,4 +1,4 @@
-import { DataSourceOptions } from "typeorm";
+import { DataSourceOptions } from 'typeorm'
 
 export const generateDataSourceOptions = (opts: any) => {
   const {
@@ -7,33 +7,33 @@ export const generateDataSourceOptions = (opts: any) => {
     POSTGRES_USER,
     POSTGRES_PASSWORD,
     POSTGRES_PORT,
-    POSTGRES_DB,
-  } = process.env;
+    POSTGRES_DB
+  } = process.env
 
-  let DB_NAME: string = "";
+  let DB_NAME: string = ''
 
-  const overrideTestDbName = opts?.db?.overrideTestDbName;
+  const overrideTestDbName = opts?.db?.overrideTestDbName
 
-  if (["test", "development"].includes(NODE_ENV ?? "")) {
-    DB_NAME = overrideTestDbName ?? NODE_ENV;
+  if (['test', 'development'].includes(NODE_ENV ?? '')) {
+    DB_NAME = overrideTestDbName ?? NODE_ENV
   } else {
-    DB_NAME = POSTGRES_DB ?? "";
+    DB_NAME = POSTGRES_DB ?? ''
   }
 
   const dataSourceOptions: DataSourceOptions = {
-    type: "postgres",
-    host: POSTGRES_HOST ?? "localhost",
+    type: 'postgres',
+    host: POSTGRES_HOST ?? 'localhost',
     port: (POSTGRES_PORT ?? 5432) as number,
     username: POSTGRES_USER,
     password: POSTGRES_PASSWORD,
     database: DB_NAME,
     synchronize: false,
-    logging: process.env.NODE_ENV === "development",
-    entities: [__dirname + "/entities/**/*.entity{.ts,.js}"],
-    migrations: [__dirname + "/migrations/**/*{.ts,.js}"],
+    logging: process.env.NODE_ENV === 'development',
+    entities: [__dirname + '/entities/**/*.entity{.ts,.js}'],
+    migrations: [__dirname + '/migrations/**/*{.ts,.js}'],
     subscribers: [],
-    migrationsTableName: "migration_table",
-  };
+    migrationsTableName: 'migration_table'
+  }
 
-  return dataSourceOptions;
-};
+  return dataSourceOptions
+}

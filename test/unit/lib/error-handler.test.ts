@@ -1,119 +1,119 @@
-import { test, describe, afterEach, beforeEach } from "node:test";
-import assert from "node:assert/strict";
-import Problem from "api-problem";
-import sinon from "sinon";
-import { buildMockReply } from "../../lib/mocks";
+import { test, describe, afterEach, beforeEach } from 'node:test'
+import assert from 'node:assert/strict'
+import Problem from 'api-problem'
+import sinon from 'sinon'
+import { buildMockReply } from '../../lib/mocks'
 import {
   buildApiErrorCode,
-  errorHandler,
-} from "../../../src/lib/error-handler";
-import { QueryFailedError } from "typeorm";
+  errorHandler
+} from '../../../src/lib/error-handler'
+import { QueryFailedError } from 'typeorm'
 
-describe("Error Handler Tests", () => {
-  let mockRequest: any;
+describe('Error Handler Tests', () => {
+  let mockRequest: any
 
   beforeEach(() => {
     mockRequest = {
       log: {
         fatal: sinon.stub(),
         warn: sinon.stub(),
-        error: sinon.stub(),
-      },
-    };
-  });
+        error: sinon.stub()
+      }
+    }
+  })
 
   afterEach(() => {
-    sinon.restore();
-  });
+    sinon.restore()
+  })
 
-  test("Handles Problem instance", async () => {
-    const error = new Problem(404, "Not Found");
+  test('Handles Problem instance', async () => {
+    const error = new Problem(404, 'Not Found')
 
     // const mockFastify = buildMockFastify();
-    const mockReply = buildMockReply();
+    const mockReply = buildMockReply()
 
-    errorHandler(error, mockRequest as any, mockReply as any);
+    errorHandler(error, mockRequest, mockReply as any)
 
-    sinon.assert.calledWith(mockReply.code, 404);
-    sinon.assert.calledWith(mockReply.type, "application/json");
-    sinon.assert.calledWith(mockReply.send, JSON.stringify(error));
-  });
+    sinon.assert.calledWith(mockReply.code, 404)
+    sinon.assert.calledWith(mockReply.type, 'application/json')
+    sinon.assert.calledWith(mockReply.send, JSON.stringify(error))
+  })
 
-  test("Handles FastifyError instance", async () => {
+  test('Handles FastifyError instance', async () => {
     const error = {
       constructor: {
-        name: "FastifyError",
+        name: 'FastifyError'
       },
-      message: "Error message",
-    };
+      message: 'Error message'
+    }
 
-    const mockReply = buildMockReply();
+    const mockReply = buildMockReply()
 
-    errorHandler(error, mockRequest as any, mockReply as any);
+    errorHandler(error, mockRequest, mockReply as any)
 
-    sinon.assert.calledWith(mockReply.code, 500);
-    sinon.assert.calledWith(mockReply.type, "application/json");
-  });
+    sinon.assert.calledWith(mockReply.code, 500)
+    sinon.assert.calledWith(mockReply.type, 'application/json')
+  })
 
-  test("Handles SyntaxError instance", async () => {
-    const error = new SyntaxError("Invalid JSON");
+  test('Handles SyntaxError instance', async () => {
+    const error = new SyntaxError('Invalid JSON')
 
-    const mockReply = buildMockReply();
+    const mockReply = buildMockReply()
 
-    errorHandler(error, mockRequest as any, mockReply as any);
+    errorHandler(error, mockRequest, mockReply as any)
 
-    sinon.assert.calledWith(mockReply.code, 400);
-    sinon.assert.calledWith(mockReply.type, "application/json");
-  });
+    sinon.assert.calledWith(mockReply.code, 400)
+    sinon.assert.calledWith(mockReply.type, 'application/json')
+  })
 
-  test("Handles openAPI schema error", async () => {
+  test('Handles openAPI schema error', async () => {
     const error = {
-      message: "Schema validation failed",
-      validation: "Validation details",
-      validationContext: "Validation context",
-    };
+      message: 'Schema validation failed',
+      validation: 'Validation details',
+      validationContext: 'Validation context'
+    }
 
-    const mockReply = buildMockReply();
+    const mockReply = buildMockReply()
 
-    errorHandler(error, mockRequest as any, mockReply as any);
+    errorHandler(error, mockRequest, mockReply as any)
 
-    sinon.assert.calledWith(mockReply.code, 400);
-    sinon.assert.calledWith(mockReply.type, "application/json");
-  });
+    sinon.assert.calledWith(mockReply.code, 400)
+    sinon.assert.calledWith(mockReply.type, 'application/json')
+  })
 
-  test("Handles Uncaught Error instance", async () => {
-    const query = "SELECT * FROM users";
-    const parameters = [1, 2, 3]; // Example parameters, if any
-    const driverError = new Error("Database connection lost");
+  test('Handles Uncaught Error instance', async () => {
+    const query = 'SELECT * FROM users'
+    const parameters = [1, 2, 3] // Example parameters, if any
+    const driverError = new Error('Database connection lost')
 
-    const error = new QueryFailedError(query, parameters, driverError);
+    const error = new QueryFailedError(query, parameters, driverError)
 
-    const mockReply = buildMockReply();
+    const mockReply = buildMockReply()
 
-    errorHandler(error, mockRequest as any, mockReply as any);
+    errorHandler(error, mockRequest, mockReply as any)
 
-    assert.ok(mockRequest.log.fatal.called);
-    sinon.assert.calledWith(mockReply.code, 500);
-    sinon.assert.calledWith(mockReply.type, "application/json");
-  });
+    assert.ok(mockRequest.log.fatal.called)
+    sinon.assert.calledWith(mockReply.code, 500)
+    sinon.assert.calledWith(mockReply.type, 'application/json')
+  })
 
-  test("Handles QueryFailedError instance", async () => {
-    const error = new Error("error message from db");
+  test('Handles QueryFailedError instance', async () => {
+    const error = new Error('error message from db')
 
-    const mockReply = buildMockReply();
+    const mockReply = buildMockReply()
 
-    errorHandler(error, mockRequest as any, mockReply as any);
+    errorHandler(error, mockRequest, mockReply as any)
 
-    sinon.assert.calledWith(mockReply.code, 500);
-    sinon.assert.calledWith(mockReply.type, "application/json");
-  });
+    sinon.assert.calledWith(mockReply.code, 500)
+    sinon.assert.calledWith(mockReply.type, 'application/json')
+  })
 
-  test("Builds API error code correctly", async () => {
-    const context = "USER";
-    const error = "NOT_FOUND";
+  test('Builds API error code correctly', async () => {
+    const context = 'USER'
+    const error = 'NOT_FOUND'
 
-    const result = buildApiErrorCode(context, error);
+    const result = buildApiErrorCode(context, error)
 
-    assert.equal(result, "USER.NOT_FOUND");
-  });
-});
+    assert.equal(result, 'USER.NOT_FOUND')
+  })
+})
